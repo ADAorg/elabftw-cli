@@ -17,6 +17,7 @@ env/
 
 # Config with secrets
 .env
+.elabftw.toml
 *.toml.local
 
 # Editor

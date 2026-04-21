@@ -1,0 +1,2 @@
+base_url = "https://your-elab-instance.example.org"
+api_key  = "your-api-key-here"
