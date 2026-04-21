@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Editable install
+*.pth
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Config with secrets
+.env
+*.toml.local
+
+# Editor
+.idea/
+.vscode/
+*.swp
