@@ -5,11 +5,20 @@ build-backend = "hatchling.build"
 [project]
 name = "elabftw-cli"
 version = "0.1.0"
+description = "JSON-output CLI for the elabFTW REST API v2, designed for AI agents and automation."
+readme = "README.md"
 requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Tiago Paixao", email = "tiago.paixao@gimm.pt" }]
+keywords = ["elabftw", "cli", "api", "agents", "automation"]
 dependencies = [
     "typer>=0.12",
     "httpx>=0.27",
 ]
+
+[project.urls]
+Homepage = "https://github.com/ADAorg/elabftw-cli"
+Repository = "https://github.com/ADAorg/elabftw-cli"
 
 [project.scripts]
 elabftw = "elabftw_cli.main:app"

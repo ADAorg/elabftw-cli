@@ -19,6 +19,8 @@ env/
 .env
 .elabftw.toml
 *.toml.local
+*apikey*.txt
+elabftw_apikey.txt
 
 # Editor
 .idea/

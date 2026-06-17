@@ -4,11 +4,28 @@ A command-line interface for the [elabFTW](https://www.elabftw.net/) REST API v2
 
 ## Installation
 
+Requires Python 3.11+. The recommended way is an isolated tool install, which puts a single `elabftw` command on your `PATH` without touching any other environment:
+
 ```bash
-pip install -e .
+# with uv (fastest)
+uv tool install git+https://github.com/ADAorg/elabftw-cli
+
+# or with pipx
+pipx install git+https://github.com/ADAorg/elabftw-cli
 ```
 
-Requires Python 3.11+.
+To run it without installing at all (handy for agents and CI):
+
+```bash
+uvx --from git+https://github.com/ADAorg/elabftw-cli elabftw experiments list
+```
+
+For local development from a checkout:
+
+```bash
+uv tool install .      # isolated install from the working tree
+pip install -e .       # editable install into the active environment
+```
 
 ## Authentication
 
