@@ -45,15 +45,14 @@ Legend: ✅ covered · ⬜ not implemented
 
 ## Uploads
 
-| Method | Endpoint | Status |
-|--------|----------|--------|
-| GET | /uploads | ⬜ |
-| POST | /uploads | ⬜ |
-| GET | /uploads/{id} | ⬜ |
-| PATCH | /uploads/{id} | ⬜ |
-| DELETE | /uploads/{id} | ⬜ |
-| POST | /uploads/replace | ⬜ |
-| GET | /user-uploads | ⬜ |
+| Method | Endpoint | CLI command | Status |
+|--------|----------|-------------|--------|
+| GET | /{entity_type}/{id}/uploads | | ⬜ |
+| POST | /{entity_type}/{id}/uploads | `elabftw experiments upload <id>` / `elabftw items upload <id>` | ✅ |
+| GET | /{entity_type}/{id}/uploads/{subid} | | ⬜ |
+| PATCH | /{entity_type}/{id}/uploads/{subid} | | ⬜ |
+| DELETE | /{entity_type}/{id}/uploads/{subid} | | ⬜ |
+| GET | /users/{id}/uploads | | ⬜ |
 
 ## Tags
 
@@ -99,20 +98,20 @@ Legend: ✅ covered · ⬜ not implemented
 
 ## Templates
 
-| Method | Endpoint | Status |
-|--------|----------|--------|
-| GET | /experiments-templates | ⬜ |
-| POST | /experiments-templates | ⬜ |
-| GET | /experiments-templates/{id} | ⬜ |
-| PATCH | /experiments-templates/{id} | ⬜ |
-| DELETE | /experiments-templates/{id} | ⬜ |
-| POST | /experiments-templates/{id} | ⬜ |
-| GET | /items-types | ⬜ |
-| POST | /items-types | ⬜ |
-| GET | /items-types/{id} | ⬜ |
-| PATCH | /items-types/{id} | ⬜ |
-| DELETE | /items-types/{id} | ⬜ |
-| POST | /items-types/{id} | ⬜ |
+| Method | Endpoint | CLI command | Status |
+|--------|----------|-------------|--------|
+| GET | /experiments_templates | `elabftw experiments-templates list` | ✅ |
+| POST | /experiments_templates | | ⬜ |
+| GET | /experiments_templates/{id} | `elabftw experiments-templates get <id>` | ✅ |
+| PATCH | /experiments_templates/{id} | | ⬜ |
+| DELETE | /experiments_templates/{id} | | ⬜ |
+| POST | /experiments_templates/{id} | duplicate / action endpoint | ⬜ |
+| GET | /items-types | | ⬜ |
+| POST | /items-types | | ⬜ |
+| GET | /items-types/{id} | | ⬜ |
+| PATCH | /items-types/{id} | | ⬜ |
+| DELETE | /items-types/{id} | | ⬜ |
+| POST | /items-types/{id} | | ⬜ |
 
 ## Categories & Status
 

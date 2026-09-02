@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "elabftw-cli"
-version = "0.1.0"
+version = "0.2.0"
 description = "JSON-output CLI for the elabFTW REST API v2, designed for AI agents and automation."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -61,10 +61,15 @@ elabftw experiments list --search "crispr" --limit 10
 elabftw experiments get 42                        # get by ID
 elabftw experiments create --title "My experiment"
 elabftw experiments create --title "My experiment" --body "<p>Notes</p>" --category-id 3
+elabftw experiments create --title "My experiment" --template-id 7   # create from a template
 elabftw experiments patch 42 --title "Updated title"
 elabftw experiments patch 42 --status "finished"
+elabftw experiments patch 42 --bodyappend "<h2>2026-09-02</h2><p>Ran the analysis, see attached.</p>"
+elabftw experiments upload 42 --file results.png --comment "figure 1"
 elabftw experiments delete 42
 ```
+
+`--category-id` sets the experiment's *category* (a classification, e.g. "Culture" vs. "Analysis") — it does **not** select a template. To create an experiment from a template, use `--template-id` (see [Templates](#templates) below to resolve a template's ID from its name). `--bodyappend` appends to the existing body instead of replacing it, which is the right tool for an entry you write to incrementally.
 
 ### Items
 
@@ -74,7 +79,19 @@ elabftw items list --search "buffer" --limit 20
 elabftw items get 7
 elabftw items create --title "PBS 1x" --category-id 2
 elabftw items patch 7 --title "PBS 1x (updated)"
+elabftw items patch 7 --bodyappend "<p>Restocked 2026-09-02.</p>"
+elabftw items upload 7 --file coa.pdf --comment "certificate of analysis"
 elabftw items delete 7
+```
+
+### Templates
+
+Experiment templates are read-only from the CLI — create/edit them in the elabFTW UI, but list them here to resolve a template's ID by name before using `experiments create --template-id`:
+
+```bash
+elabftw experiments-templates list
+elabftw experiments-templates list --search "AgendoProject"
+elabftw experiments-templates get 7
 ```
 
 ### Users

@@ -42,7 +42,15 @@ def get(id: int = typer.Argument(..., help="Experiment ID.")) -> None:
 def create(
     title: str = typer.Option(..., "--title", "-t", help="Experiment title."),
     body: Optional[str] = typer.Option(None, "--body", "-b", help="Experiment body (HTML or plain text)."),
-    category_id: Optional[int] = typer.Option(None, "--category-id", help="Category (experiment template) ID."),
+    category_id: Optional[int] = typer.Option(None, "--category-id", help="Experiment category ID (classification, not a template)."),
+    template_id: Optional[int] = typer.Option(
+        None,
+        "--template-id",
+        help=(
+            "Template ID to create the experiment from (see `elabftw experiments-templates list`). "
+            "0 uses the team's common template, -1 (the API default) creates an empty body."
+        ),
+    ),
 ) -> None:
     """Create a new experiment."""
     c = _client_from_ctx()
@@ -50,7 +58,9 @@ def create(
     if body is not None:
         payload["body"] = body
     if category_id is not None:
-        payload["category_id"] = category_id
+        payload["category"] = category_id
+    if template_id is not None:
+        payload["template"] = template_id
     _out(c.post("/experiments", payload))
 
 
@@ -58,7 +68,10 @@ def create(
 def patch(
     id: int = typer.Argument(..., help="Experiment ID."),
     title: Optional[str] = typer.Option(None, "--title", "-t", help="New title."),
-    body: Optional[str] = typer.Option(None, "--body", "-b", help="New body."),
+    body: Optional[str] = typer.Option(None, "--body", "-b", help="New body (replaces the existing body)."),
+    bodyappend: Optional[str] = typer.Option(
+        None, "--bodyappend", help="Append content (HTML or plain text) to the existing body instead of replacing it."
+    ),
     status: Optional[str] = typer.Option(None, "--status", help="New status."),
 ) -> None:
     """Update an experiment."""
@@ -67,6 +80,8 @@ def patch(
         payload["title"] = title
     if body is not None:
         payload["body"] = body
+    if bodyappend is not None:
+        payload["bodyappend"] = bodyappend
     if status is not None:
         payload["status"] = status
     if not payload:
@@ -82,3 +97,14 @@ def delete(id: int = typer.Argument(..., help="Experiment ID.")) -> None:
     c = _client_from_ctx()
     c.delete(f"/experiments/{id}")
     _out({"ok": True})
+
+
+@app.command()
+def upload(
+    id: int = typer.Argument(..., help="Experiment ID."),
+    file: str = typer.Option(..., "--file", "-f", help="Path to the file to attach."),
+    comment: Optional[str] = typer.Option(None, "--comment", "-c", help="Optional comment for the attached file."),
+) -> None:
+    """Attach a file to an experiment."""
+    c = _client_from_ctx()
+    _out(c.post_multipart(f"/experiments/{id}/uploads", file, comment))
