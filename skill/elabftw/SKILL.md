@@ -52,9 +52,28 @@ elabftw experiments list --search "crispr" --limit 10
 elabftw experiments get 42
 elabftw experiments create --title "My experiment"
 elabftw experiments create --title "My experiment" --body "<p>Notes</p>" --category-id 3
+elabftw experiments create --title "My experiment" --template-id 7   # create from a template
 elabftw experiments patch 42 --title "Updated title"
 elabftw experiments patch 42 --status "finished"
+elabftw experiments patch 42 --bodyappend "<h2>2026-09-02</h2><p>Progress notes...</p>"
+elabftw experiments upload 42 --file results.png --comment "figure 1"
 elabftw experiments delete 42
+```
+
+`--category-id` sets the experiment's *category* (a classification), not a template.
+Use `--template-id` to create from a template — resolve the ID by name first with
+`elabftw experiments-templates list` (see below). Prefer `--bodyappend` over `--body`
+once an entry already has content: `--body` replaces the whole body, `--bodyappend`
+adds to it — the right choice for a notebook entry written to incrementally over time.
+
+### Templates
+
+Read-only from the CLI — create/edit templates in the elabFTW UI.
+
+```bash
+elabftw experiments-templates list
+elabftw experiments-templates list --search "AgendoProject"
+elabftw experiments-templates get 7
 ```
 
 ### Items (resources)
@@ -65,6 +84,8 @@ elabftw items list --search "buffer" --limit 20
 elabftw items get 7
 elabftw items create --title "PBS 1x" --category-id 2
 elabftw items patch 7 --title "PBS 1x (updated)"
+elabftw items patch 7 --bodyappend "<p>Restocked 2026-09-02.</p>"
+elabftw items upload 7 --file coa.pdf --comment "certificate of analysis"
 elabftw items delete 7
 ```
 
@@ -114,3 +135,6 @@ elabftw teamgroups delete 1 3
 - **`delete` is destructive and not reversible.** Confirm the target ID with the user before deleting experiments, items, users, or teamgroups.
 - **Permissions matter.** Some commands (e.g. `teams list`, user creation) require Sysadmin/Admin rights; a `1` exit with a permissions message means the API key lacks the role, not that the CLI is broken.
 - **Discover options at runtime** with `--help` instead of guessing flags.
+- **Resolve template names to IDs first.** There's no `--template` by name — use
+  `elabftw experiments-templates list --search "<name>"` and pass the matching `id` to
+  `experiments create --template-id`.

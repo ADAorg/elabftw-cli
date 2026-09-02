@@ -1,6 +1,6 @@
 import typer
 
-from elabftw_cli.commands import experiments, items, teams, teamgroups, users
+from elabftw_cli.commands import experiments, items, teams, teamgroups, templates, users
 
 app = typer.Typer(
     name="elabftw",
@@ -13,6 +13,7 @@ app.add_typer(items.app, name="items")
 app.add_typer(users.app, name="users")
 app.add_typer(teams.app, name="teams")
 app.add_typer(teamgroups.app, name="teamgroups")
+app.add_typer(templates.app, name="experiments-templates")
 
 
 def main() -> None:

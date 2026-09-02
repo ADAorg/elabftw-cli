@@ -42,7 +42,7 @@ def get(id: int = typer.Argument(..., help="Item ID.")) -> None:
 def create(
     title: str = typer.Option(..., "--title", "-t", help="Item title."),
     body: Optional[str] = typer.Option(None, "--body", "-b", help="Item body (HTML or plain text)."),
-    category_id: Optional[int] = typer.Option(None, "--category-id", help="Item category ID."),
+    category_id: Optional[int] = typer.Option(None, "--category-id", help="Item type (category) ID."),
 ) -> None:
     """Create a new item."""
     c = _client_from_ctx()
@@ -50,7 +50,7 @@ def create(
     if body is not None:
         payload["body"] = body
     if category_id is not None:
-        payload["category_id"] = category_id
+        payload["category"] = category_id
     _out(c.post("/items", payload))
 
 
@@ -58,7 +58,10 @@ def create(
 def patch(
     id: int = typer.Argument(..., help="Item ID."),
     title: Optional[str] = typer.Option(None, "--title", "-t", help="New title."),
-    body: Optional[str] = typer.Option(None, "--body", "-b", help="New body."),
+    body: Optional[str] = typer.Option(None, "--body", "-b", help="New body (replaces the existing body)."),
+    bodyappend: Optional[str] = typer.Option(
+        None, "--bodyappend", help="Append content (HTML or plain text) to the existing body instead of replacing it."
+    ),
 ) -> None:
     """Update an item."""
     payload: dict = {}
@@ -66,6 +69,8 @@ def patch(
         payload["title"] = title
     if body is not None:
         payload["body"] = body
+    if bodyappend is not None:
+        payload["bodyappend"] = bodyappend
     if not payload:
         print("error: at least one field to update must be provided", file=sys.stderr)
         raise SystemExit(1)
@@ -79,3 +84,14 @@ def delete(id: int = typer.Argument(..., help="Item ID.")) -> None:
     c = _client_from_ctx()
     c.delete(f"/items/{id}")
     _out({"ok": True})
+
+
+@app.command()
+def upload(
+    id: int = typer.Argument(..., help="Item ID."),
+    file: str = typer.Option(..., "--file", "-f", help="Path to the file to attach."),
+    comment: Optional[str] = typer.Option(None, "--comment", "-c", help="Optional comment for the attached file."),
+) -> None:
+    """Attach a file to an item."""
+    c = _client_from_ctx()
+    _out(c.post_multipart(f"/items/{id}/uploads", file, comment))
